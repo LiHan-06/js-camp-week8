@@ -473,77 +473,77 @@ const mockOrdersData = [
 // ========================================
 // 測試三：產品服務
 // ========================================
-describe('測試三：產品服務', () => {
+// describe('測試三：產品服務', () => {
 
-  // 從測試三開始，用 mockResolvedValue 覆蓋測試一設定的真實實作
-  // 每個 describe 的 beforeEach 會在「檔案層級 beforeEach（clearAllMocks）」之後執行
-  beforeEach(() => {
-    api.fetchProducts.mockResolvedValue(mockApiProducts);
-  });
+//   // 從測試三開始，用 mockResolvedValue 覆蓋測試一設定的真實實作
+//   // 每個 describe 的 beforeEach 會在「檔案層級 beforeEach（clearAllMocks）」之後執行
+//   beforeEach(() => {
+//     api.fetchProducts.mockResolvedValue(mockApiProducts);
+//   });
 
-  describe('getProducts', () => {
-    test('應回傳物件', async () => {
-      const result = await productService.getProducts();
-      expect(typeof result).toBe('object');
-      expect(result).not.toBeNull();
-    });
+//   describe('getProducts', () => {
+//     test('應回傳物件', async () => {
+//       const result = await productService.getProducts();
+//       expect(typeof result).toBe('object');
+//       expect(result).not.toBeNull();
+//     });
 
-    test('count 應為數字且等於 products 長度', async () => {
-      const result = await productService.getProducts();
-      expect(typeof result.count).toBe('number');
-      expect(result.count).toBe(result.products.length);
-    });
+//     test('count 應為數字且等於 products 長度', async () => {
+//       const result = await productService.getProducts();
+//       expect(typeof result.count).toBe('number');
+//       expect(result.count).toBe(result.products.length);
+//     });
 
-    test('應只呼叫一次 fetchProducts', async () => {
-      await productService.getProducts();
-      expect(api.fetchProducts).toHaveBeenCalledTimes(1);
-    });
-  });
+//     test('應只呼叫一次 fetchProducts', async () => {
+//       await productService.getProducts();
+//       expect(api.fetchProducts).toHaveBeenCalledTimes(1);
+//     });
+//   });
 
-  describe('getProductsByCategory', () => {
-    // 【注意】mock 版直接使用假資料裡的分類名稱，不需要先呼叫 getCategories() 取得真實分類
-    test('應回傳符合分類的陣列', async () => {
-      const result = await productService.getProductsByCategory('衣服');
-      expect(Array.isArray(result)).toBe(true);
-      expect(result.every(p => p.category === '衣服')).toBe(true);
-    });
+//   describe('getProductsByCategory', () => {
+//     // 【注意】mock 版直接使用假資料裡的分類名稱，不需要先呼叫 getCategories() 取得真實分類
+//     test('應回傳符合分類的陣列', async () => {
+//       const result = await productService.getProductsByCategory('衣服');
+//       expect(Array.isArray(result)).toBe(true);
+//       expect(result.every(p => p.category === '衣服')).toBe(true);
+//     });
 
-    test('不存在的分類應回傳空陣列', async () => {
-      const result = await productService.getProductsByCategory('不存在的分類');
-      expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBe(0);
-    });
-  });
+//     test('不存在的分類應回傳空陣列', async () => {
+//       const result = await productService.getProductsByCategory('不存在的分類');
+//       expect(Array.isArray(result)).toBe(true);
+//       expect(result.length).toBe(0);
+//     });
+//   });
 
-  describe('getProductById', () => {
-    // 【注意】mock 版直接使用假資料裡已知的 id，不需要先呼叫 getProducts()
-    test('找到的產品應有 id 屬性且 id 正確', async () => {
-      const result = await productService.getProductById('product-1');
-      expect(result).toHaveProperty('id');
-      expect(result.id).toBe('product-1');
-    });
+//   describe('getProductById', () => {
+//     // 【注意】mock 版直接使用假資料裡已知的 id，不需要先呼叫 getProducts()
+//     test('找到的產品應有 id 屬性且 id 正確', async () => {
+//       const result = await productService.getProductById('product-1');
+//       expect(result).toHaveProperty('id');
+//       expect(result.id).toBe('product-1');
+//     });
 
-    test('找不到產品應回傳 null', async () => {
-      expect(await productService.getProductById('不存在的ID')).toBeNull();
-    });
-  });
+//     test('找不到產品應回傳 null', async () => {
+//       expect(await productService.getProductById('不存在的ID')).toBeNull();
+//     });
+//   });
 
-  describe('getCategories', () => {
-    test('應回傳非空字串陣列', async () => {
-      const result = await productService.getCategories();
-      expect(Array.isArray(result)).toBe(true);
-      expect(result.length).toBeGreaterThan(0);
-      expect(result.every(cat => typeof cat === 'string')).toBe(true);
-    });
+//   describe('getCategories', () => {
+//     test('應回傳非空字串陣列', async () => {
+//       const result = await productService.getCategories();
+//       expect(Array.isArray(result)).toBe(true);
+//       expect(result.length).toBeGreaterThan(0);
+//       expect(result.every(cat => typeof cat === 'string')).toBe(true);
+//     });
 
-    // 【Mock 版新增】假資料中「衣服」出現兩次，可明確驗證去重邏輯
-    test('應去除重複分類（衣服出現兩次，結果應只有一次）', async () => {
-      const result = await productService.getCategories();
-      const uniqueResult = [...new Set(result)];
-      expect(result.length).toBe(uniqueResult.length);
-    });
-  });
-});
+//     // 【Mock 版新增】假資料中「衣服」出現兩次，可明確驗證去重邏輯
+//     test('應去除重複分類（衣服出現兩次，結果應只有一次）', async () => {
+//       const result = await productService.getCategories();
+//       const uniqueResult = [...new Set(result)];
+//       expect(result.length).toBe(uniqueResult.length);
+//     });
+//   });
+// });
 
 // ========================================
 // 測試四：購物車服務
@@ -637,122 +637,122 @@ describe('測試三：產品服務', () => {
 // ========================================
 // 測試五：訂單服務
 // ========================================
-// describe('測試五：訂單服務', () => {
+describe('測試五：訂單服務', () => {
   
-//   describe('placeOrder', () => {
-//     // 【重點示範】驗證失敗時完全不打 API
-//     test('無效資料應回傳 success: false 且有非空 errors 陣列', async () => {
-//       const result = await orderService.placeOrder(invalidUser);
-//       expect(result).toBeDefined();
-//       expect(result.success).toBe(false);
-//       expect(Array.isArray(result.errors)).toBe(true);
+  describe('placeOrder', () => {
+    // 【重點示範】驗證失敗時完全不打 API
+    test('無效資料應回傳 success: false 且有非空 errors 陣列', async () => {
+      const result = await orderService.placeOrder(invalidUser);
+      expect(result).toBeDefined();
+      expect(result.success).toBe(false);
+      expect(Array.isArray(result.errors)).toBe(true);
 
-//       // 驗證資料不合格時，createOrder 不應被呼叫
-//       expect(api.createOrder).not.toHaveBeenCalled();
-//     });
+      // 驗證資料不合格時，createOrder 不應被呼叫
+      expect(api.createOrder).not.toHaveBeenCalled();
+    });
 
-//     test('有效資料應回傳 success: true 且無 errors', async () => {
-//       api.createOrder.mockResolvedValue({ status: true, id: 'new-order-id' });
+    test('有效資料應回傳 success: true 且無 errors', async () => {
+      api.createOrder.mockResolvedValue({ status: true, id: 'new-order-id' });
 
-//       const result = await orderService.placeOrder(validUser);
-//       expect(result.success).toBe(true);
-//       if (result.success) {
-//         expect(result.errors).toBeUndefined();
-//       }
-//     });
-//   });
+      const result = await orderService.placeOrder(validUser);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.errors).toBeUndefined();
+      }
+    });
+  });
 
-//   describe('getOrders', () => {
-//     test('應回傳非 undefined 的陣列，且每筆訂單含必要欄位', async () => {
-//       api.fetchOrders.mockResolvedValue(mockOrdersData);
+  describe('getOrders', () => {
+    test('應回傳非 undefined 的陣列，且每筆訂單含必要欄位', async () => {
+      api.fetchOrders.mockResolvedValue(mockOrdersData);
 
-//       const result = await orderService.getOrders();
-//       expect(result).toBeDefined();
-//       expect(Array.isArray(result)).toBe(true);
-//       if (result.length > 0) {
-//         expect(result[0]).toHaveProperty('id');
-//         expect(result[0]).toHaveProperty('user');
-//         expect(result[0]).toHaveProperty('paid');
-//       }
-//     });
-//   });
+      const result = await orderService.getOrders();
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+      if (result.length > 0) {
+        expect(result[0]).toHaveProperty('id');
+        expect(result[0]).toHaveProperty('user');
+        expect(result[0]).toHaveProperty('paid');
+      }
+    });
+  });
 
-//   describe('getUnpaidOrders', () => {
-//     test('應回傳陣列且有實作，所有訂單的 paid 應為 false', async () => {
-//       // mockOrdersData 包含 paid: false 和 paid: true 各一筆，驗證篩選邏輯
-//       api.fetchOrders.mockResolvedValue(mockOrdersData);
+  describe('getUnpaidOrders', () => {
+    test('應回傳陣列且有實作，所有訂單的 paid 應為 false', async () => {
+      // mockOrdersData 包含 paid: false 和 paid: true 各一筆，驗證篩選邏輯
+      api.fetchOrders.mockResolvedValue(mockOrdersData);
 
-//       const result = await orderService.getUnpaidOrders();
-//       expect(result).toBeDefined();
-//       expect(Array.isArray(result)).toBe(true);
-//       if (result.length > 0) {
-//         expect(result.every(o => !o.paid)).toBe(true);
-//         expect(result.find(o => o.paid)).toBeUndefined();
-//       }
-//     });
-//   });
+      const result = await orderService.getUnpaidOrders();
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+      if (result.length > 0) {
+        expect(result.every(o => !o.paid)).toBe(true);
+        expect(result.find(o => o.paid)).toBeUndefined();
+      }
+    });
+  });
 
-//   describe('getPaidOrders', () => {
-//     test('應回傳陣列且有實作，所有訂單的 paid 應為 true', async () => {
-//       api.fetchOrders.mockResolvedValue(mockOrdersData);
+  describe('getPaidOrders', () => {
+    test('應回傳陣列且有實作，所有訂單的 paid 應為 true', async () => {
+      api.fetchOrders.mockResolvedValue(mockOrdersData);
 
-//       const result = await orderService.getPaidOrders();
-//       expect(result).toBeDefined();
-//       expect(Array.isArray(result)).toBe(true);
-//       if (result.length > 0) {
-//         expect(result.every(o => o.paid)).toBe(true);
-//         expect(result.find(o => !o.paid)).toBeUndefined();
-//       }
-//     });
-//   });
+      const result = await orderService.getPaidOrders();
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+      if (result.length > 0) {
+        expect(result.every(o => o.paid)).toBe(true);
+        expect(result.find(o => !o.paid)).toBeUndefined();
+      }
+    });
+  });
 
-//   describe('updatePaymentStatus', () => {
-//     test('應回傳有 success 屬性的物件', async () => {
-//       api.updateOrderStatus.mockResolvedValue({ status: true, orders: mockOrdersData });
+  describe('updatePaymentStatus', () => {
+    test('應回傳有 success 屬性的物件', async () => {
+      api.updateOrderStatus.mockResolvedValue({ status: true, orders: mockOrdersData });
 
-//       const result = await orderService.updatePaymentStatus('order-1', true);
-//       expect(result).toBeDefined();
-//       expect(result).toHaveProperty('success');
-//     });
-//   });
+      const result = await orderService.updatePaymentStatus('order-1', true);
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty('success');
+    });
+  });
 
-//   describe('removeOrder', () => {
-//     test('應回傳有 success 屬性的物件', async () => {
-//       api.deleteOrder.mockResolvedValue({ status: true });
+  describe('removeOrder', () => {
+    test('應回傳有 success 屬性的物件', async () => {
+      api.deleteOrder.mockResolvedValue({ status: true });
 
-//       const result = await orderService.removeOrder('order-1');
-//       expect(result).toBeDefined();
-//       expect(result).toHaveProperty('success');
-//     });
-//   });
+      const result = await orderService.removeOrder('order-1');
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty('success');
+    });
+  });
 
-//   describe('formatOrder', () => {
-//     // formatOrder 是純函式，不呼叫 API，不需要設定 mock
-//     test('應回傳物件', () => {
-//       const result = orderService.formatOrder(mockOrder);
-//       expect(typeof result).toBe('object');
-//       expect(result).not.toBeNull();
-//     });
+  describe('formatOrder', () => {
+    // formatOrder 是純函式，不呼叫 API，不需要設定 mock
+    test('應回傳物件', () => {
+      const result = orderService.formatOrder(mockOrder);
+      expect(typeof result).toBe('object');
+      expect(result).not.toBeNull();
+    });
 
-//     test('應有 totalFormatted 屬性', () => {
-//       const result = orderService.formatOrder(mockOrder);
-//       expect(result).toHaveProperty('totalFormatted');
-//     });
+    test('應有 totalFormatted 屬性', () => {
+      const result = orderService.formatOrder(mockOrder);
+      expect(result).toHaveProperty('totalFormatted');
+    });
 
-//     test('未付款訂單 paidText 應為「未付款」', () => {
-//       const result = orderService.formatOrder(mockOrder);
-//       expect(result.paidText).toBe('未付款');
-//     });
+    test('未付款訂單 paidText 應為「未付款」', () => {
+      const result = orderService.formatOrder(mockOrder);
+      expect(result.paidText).toBe('未付款');
+    });
 
-//     test('已付款訂單 paidText 應為「已付款」', () => {
-//       const paidOrder = { ...mockOrder, paid: true };
-//       const result = orderService.formatOrder(paidOrder);
-//       expect(result.paidText).toBe('已付款');
-//     });
+    test('已付款訂單 paidText 應為「已付款」', () => {
+      const paidOrder = { ...mockOrder, paid: true };
+      const result = orderService.formatOrder(paidOrder);
+      expect(result.paidText).toBe('已付款');
+    });
 
-//     test('createdAt 應為格式化日期字串', () => {
-//       const result = orderService.formatOrder(mockOrder);
-//       expect(result.createdAt).toMatch(/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}$/);
-//     });
-//   });
-// });
+    test('createdAt 應為格式化日期字串', () => {
+      const result = orderService.formatOrder(mockOrder);
+      expect(result.createdAt).toMatch(/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}$/);
+    });
+  });
+});
