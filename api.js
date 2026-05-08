@@ -96,7 +96,13 @@ async function createOrder(userInfo) {
   // 請實作此函式
   const response = await axios.post(`${BASE_URL}/api/livejs/v1/customer/${API_PATH}/orders`,{
       data: {
-        user: userInfo,
+        user: {
+          name: userInfo.name,
+          tel: userInfo.tel,
+          email: userInfo.email,
+          address: userInfo.address,
+          payment: userInfo.payment,
+        },
       },
     },
   );
@@ -119,6 +125,12 @@ async function createOrder(userInfo) {
  */
 async function fetchOrders() {
   // 請實作此函式
+  const response = await axios.get(`${BASE_URL}/api/livejs/v1/admin/${API_PATH}/orders`,{
+    headers: {
+      authorization: ADMIN_TOKEN
+    }
+  });
+  return response.data.orders;
 }
 
 /**
@@ -129,6 +141,19 @@ async function fetchOrders() {
  */
 async function updateOrderStatus(orderId, isPaid) {
   // 請實作此函式
+  const response = await axios.put(`${BASE_URL}/api/livejs/v1/admin/${API_PATH}/orders`,
+    {
+      data: {
+        id: orderId,
+        paid: isPaid
+      }
+    },
+    {
+    headers: {
+      authorization: ADMIN_TOKEN
+    }
+  });
+  return response.data.orders;
 }
 
 /**
@@ -138,6 +163,12 @@ async function updateOrderStatus(orderId, isPaid) {
  */
 async function deleteOrder(orderId) {
   // 請實作此函式
+  const response = await axios.delete(`${BASE_URL}/api/livejs/v1/admin/${API_PATH}/orders/${orderId}`,{
+    headers: {
+      authorization: ADMIN_TOKEN
+    }
+  });
+  return response.data.orders;
 }
 
 module.exports = {
