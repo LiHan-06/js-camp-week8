@@ -78,7 +78,7 @@ function displayProducts(products) {
     console.log(`${index + 1}. ${product.title}`);
     console.log(`分類：${product.category}`);
     console.log(`原價：${formatCurrency(product.origin_price)}`);
-    console.log(`售價：${formatCurrency(product.origin_price)} (${getDiscountRate(product)})`);
+    console.log(`售價：${formatCurrency(product.price)} (${getDiscountRate(product)})`);
     console.log('----------------------------------------');
   });
 }
